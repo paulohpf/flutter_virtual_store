@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue,
+          primaryColor: Color.fromARGB(255, 4, 125, 141)),
       home: FutureBuilder<FirebaseApp>(
         future: _initialization,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
