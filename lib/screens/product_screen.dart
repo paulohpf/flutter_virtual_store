@@ -7,7 +7,7 @@ class ProductScreen extends StatefulWidget {
   final ProductData product;
 
   @override
-  _ProdutScreenState createState() => _ProdutScreenState(product);
+  _ProdutScreenState createState() => _ProdutScreenState();
 }
 
 class _ProdutScreenState extends State<ProductScreen> {
