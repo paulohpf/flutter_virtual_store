@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_virtual_store/screens/home_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_virtual_store/screens/login_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,13 +19,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          primaryColor: Color.fromARGB(255, 4, 125, 141)),
+          primaryColor: const Color.fromARGB(255, 4, 125, 141)),
       home: FutureBuilder<FirebaseApp>(
         future: _initialization,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
-            return HomeScreen();
+            // return HomeScreen();
+            return LoginScreen();
           }
 
           return const CircularProgressIndicator(
