@@ -3,6 +3,7 @@ import 'package:flutter_virtual_store/screens/home_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_virtual_store/screens/login_screen.dart';
+import 'package:flutter_virtual_store/screens/signup_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
             // return HomeScreen();
-            return LoginScreen();
+            return HomeScreen();
           }
 
           return const CircularProgressIndicator(
