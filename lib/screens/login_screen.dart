@@ -15,8 +15,11 @@ class LoginScreen extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
-                    builder: (BuildContext context) => SignUpScreen()));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => SignUpScreen(),
+                  ),
+                );
               },
               child: const Text(
                 'CRIAR CONTA',
