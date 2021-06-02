@@ -59,7 +59,16 @@ class UserModel extends Model {
         .set(userData);
   }
 
+  Future<void> signOut() async {
+    await _auth.signOut();
+
+    userData = <String, dynamic>{};
+    userCredential = null;
+
+    notifyListeners();
+  }
+
   bool isLoggedIn() {
-    return false;
+    return userCredential != null;
   }
 }

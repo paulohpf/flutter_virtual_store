@@ -8,13 +8,14 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'models/user_model.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   // This widget is the root of your application.
   @override
@@ -26,20 +27,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: const Color.fromARGB(255, 4, 125, 141)),
-        home: FutureBuilder<FirebaseApp>(
-          future: _initialization,
-          builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-            // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done) {
-              // return HomeScreen();
-              return HomeScreen();
-            }
-
-            return const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            );
-          },
-        ),
+        home: HomeScreen(),
       ),
     );
   }

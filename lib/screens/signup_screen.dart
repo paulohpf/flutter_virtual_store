@@ -18,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Entrar'),
         centerTitle: true,
@@ -107,7 +108,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSuccess() {}
+  void _onSuccess() {
+    final SnackBar snackBar = SnackBar(
+      content: const Text('Usuário criado com sucesso!'),
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: const Duration(seconds: 2),
+    );
 
-  void _onFail() {}
+    setState(() {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+
+    Future<void>.delayed(const Duration(seconds: 2)).then((_) {
+      Navigator.of(context).pop();
+    });
+  }
+
+  void _onFail() {
+    const SnackBar snackBar = SnackBar(
+      content: Text('Falha ao criar usuário'),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+    );
+
+    setState(() {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+  }
 }
