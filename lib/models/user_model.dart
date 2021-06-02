@@ -75,7 +75,9 @@ class UserModel extends Model {
     });
   }
 
-  void recoverPass() {}
+  void recoverPass(String email) {
+    _auth.sendPasswordResetEmail(email: email);
+  }
 
   Future<void> _saveUserData(Map<String, dynamic> userData) async {
     print(userData);
