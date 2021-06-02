@@ -9,9 +9,16 @@ class UserModel extends Model {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   UserCredential userCredential;
-  Map<String, dynamic> userData;
+  Map<String, dynamic> userData = <String, dynamic>{};
 
   bool isLoading = false;
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+
+    _loadCurrentUser();
+  }
 
   void signUp({
     @required Map<String, dynamic> userData,
@@ -40,12 +47,32 @@ class UserModel extends Model {
     });
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn({
+    @required String email,
+    @required String pass,
+    @required VoidCallback onSuccess,
+    @required VoidCallback onFail,
+  }) async {
     isLoading = true;
     notifyListeners();
 
-    isLoading = false;
-    notifyListeners();
+    _auth
+        .signInWithEmailAndPassword(email: email, password: pass)
+        .then((UserCredential user) async {
+      userCredential = user;
+
+      await _loadCurrentUser();
+
+      onSuccess();
+
+      isLoading = false;
+      notifyListeners();
+    }).catchError((dynamic e) {
+      onFail();
+
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   void recoverPass() {}
@@ -57,6 +84,25 @@ class UserModel extends Model {
         .collection('users')
         .doc(userCredential.user.uid)
         .set(userData);
+  }
+
+  Future<void> _loadCurrentUser() async {
+    print(userCredential);
+    userCredential ??= _auth.currentUser as UserCredential;
+
+    if (userCredential != null) {
+      if (userData['name'] == null) {
+        await firestore
+            .collection('users')
+            .doc(userCredential.user.uid)
+            .get()
+            .then((DocumentSnapshot docUser) {
+          userData = docUser.data();
+        });
+      }
+    }
+
+    notifyListeners();
   }
 
   Future<void> signOut() async {
