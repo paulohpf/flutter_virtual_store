@@ -19,4 +19,12 @@ class ProductData {
 
   List<dynamic> images;
   List<dynamic> sizes;
+
+  Map<String, dynamic> toResumeMap() {
+    return {
+      title,
+      description,
+      price,
+    } as Map<String, dynamic>;
+  }
 }

@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_virtual_store/screens/home_screen.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_virtual_store/models/cart_model.dart';
+import 'package:flutter_virtual_store/screens/home_screen.dart';
 // import 'package:flutter_virtual_store/screens/login_screen.dart';
 // import 'package:flutter_virtual_store/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'models/cart_model.dart';
 import 'models/user_model.dart';
 
 Future<void> main() async {
@@ -22,13 +23,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModel<UserModel>(
       model: UserModel(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-            primarySwatch: Colors.blue,
-            primaryColor: const Color.fromARGB(255, 4, 125, 141)),
-        home: HomeScreen(),
-      ),
+      child: ScopedModelDescendant<UserModel>(
+          builder: (BuildContext context, Widget child, UserModel model) {
+        return ScopedModel<CartModel>(
+          model: CartModel(model),
+          child: MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+                primarySwatch: Colors.blue,
+                primaryColor: const Color.fromARGB(255, 4, 125, 141)),
+            home: HomeScreen(),
+          ),
+        );
+      }),
     );
   }
 }

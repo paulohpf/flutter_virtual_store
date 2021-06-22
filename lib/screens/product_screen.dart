@@ -1,6 +1,11 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_virtual_store/datas/cart_product.dart';
 import 'package:flutter_virtual_store/datas/product_data.dart';
+import 'package:flutter_virtual_store/models/cart_model.dart';
+import 'package:flutter_virtual_store/models/user_model.dart';
+
+import 'login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen(this.product);
@@ -110,10 +115,31 @@ class _ProdutScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: size != null ? () {} : null,
-                    child: const Text(
-                      'Adicionar ao carrinho',
-                      style: TextStyle(fontSize: 18),
+                    onPressed: size != null
+                        ? () {
+                            if (UserModel.of(context).isLoggedIn()) {
+                              final CartProduct cartProduct = CartProduct();
+                              cartProduct.size = size;
+                              cartProduct.quantity = 1;
+                              cartProduct.pId = product.id;
+                              cartProduct.category = product.category;
+
+                              CartModel.of(context).addCartItem(cartProduct);
+                            } else {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      LoginScreen(),
+                                ),
+                              );
+                            }
+                          }
+                        : null,
+                    child: Text(
+                      UserModel.of(context).isLoggedIn()
+                          ? 'Adicionar ao carrinho'
+                          : 'Entre para comprar',
+                      style: const TextStyle(fontSize: 18),
                     ),
                     style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(color: Colors.white),
