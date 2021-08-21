@@ -4,6 +4,7 @@ import 'package:flutter_virtual_store/datas/cart_product.dart';
 import 'package:flutter_virtual_store/datas/product_data.dart';
 import 'package:flutter_virtual_store/models/cart_model.dart';
 import 'package:flutter_virtual_store/models/user_model.dart';
+import 'package:flutter_virtual_store/screens/cart_screen.dart';
 
 import 'login_screen.dart';
 
@@ -125,6 +126,13 @@ class _ProdutScreenState extends State<ProductScreen> {
                               cartProduct.category = product.category;
 
                               CartModel.of(context).addCartItem(cartProduct);
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      CartScreen(),
+                                ),
+                              );
                             } else {
                               Navigator.of(context).push(
                                 MaterialPageRoute<void>(
